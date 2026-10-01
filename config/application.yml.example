@@ -1,0 +1,13 @@
+# Copy this file to config/application.yml for local development.
+# Keep credentials in the environment or a secret manager.
+defaults: &defaults
+  supported_currencies: USD,INR,GBP,EUR,SGD
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -12,9 +12,10 @@ Requires Ruby 3.1+, Node 20+, and PostgreSQL. Create `acme_salary_development` a
 
 ```sh
 bundle install
+cp config/application.yml.example config/application.yml
 bin/rails db:prepare
 bin/rails db:seed
-npm --prefix frontend install
+npm --prefix frontend ci
 npm --prefix frontend run dev
 ```
 
@@ -23,9 +24,14 @@ The seed is deterministic and safe to rerun; it creates records only on an empty
 ## Tests
 
 ```sh
+RAILS_ENV=test bin/rails db:schema:load
 bundle exec rspec
 npm --prefix frontend test
+npm --prefix frontend run build
+bundle exec rubocop
 ```
+
+The test database is schema-loaded without demo seeds so factory records remain isolated. Figaro loads local settings from the ignored `config/application.yml`; deployment configuration is supplied through environment variables. API JSON is serialized with Blueprinter, salary writes go through `SalaryUpdater`, and currency support is configured through `SUPPORTED_CURRENCIES`.
 
 ## Deployment
 

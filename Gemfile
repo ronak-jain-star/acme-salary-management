@@ -4,6 +4,10 @@ ruby "3.1.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.6"
+gem "blueprinter", "~> 1.3"
+gem "figaro", "~> 1.3"
+# Rails 7.1's JSON encoder passes options removed in json 3.x.
+gem "json", "< 3.0"
 
 # PostgreSQL is used in every environment.
 gem "pg", "~> 1.5"
@@ -43,8 +47,9 @@ group :development, :test do
 end
 
 group :development do
+  gem "rubocop-rails-omakase", require: false
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-  gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
+  gem "error_highlight", ">= 0.4.0", platforms: [ :ruby ]
 end
