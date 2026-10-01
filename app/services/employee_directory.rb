@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmployeeDirectory
   Result = Struct.new(:employees, :page, :per_page, :total, keyword_init: true)
 
@@ -9,10 +11,16 @@ class EmployeeDirectory
     employees = employees.where(country: country) if country.present?
     employees = employees.where(department: department) if department.present?
     total = employees.count
+    pagination = Pagy.new(count: total, page: page, limit: per_page)
     results = employees.order(:last_name, :first_name)
-      .offset((page - 1) * per_page)
-      .limit(per_page)
+      .offset(pagination.offset)
+      .limit(pagination.limit)
 
-    Result.new(employees: results, page: page, per_page: per_page, total: total)
+    Result.new(
+      employees: results,
+      page: pagination.page,
+      per_page: pagination.limit,
+      total: pagination.count
+    )
   end
 end

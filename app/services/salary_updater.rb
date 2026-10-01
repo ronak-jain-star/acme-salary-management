@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SalaryUpdater
   Result = Struct.new(:salary, :change, :errors, keyword_init: true) do
     def success? = errors.empty?
@@ -44,17 +46,17 @@ class SalaryUpdater
 
   def validation_errors(attributes)
     errors = []
-    errors << I18n.t("salary_updater.errors.amount_minor") unless attributes[:amount]&.positive?
+    errors << I18n.t('salary_updater.errors.amount_minor') unless attributes[:amount]&.positive?
 
     supported_currencies = SalarySettings.supported_currencies
     unless supported_currencies.include?(attributes[:currency])
-      errors << I18n.t("salary_updater.errors.currency", currencies: supported_currencies.join(", "))
+      errors << I18n.t('salary_updater.errors.currency', currencies: supported_currencies.join(', '))
     end
 
     if attributes[:reason].strip.empty? || attributes[:reason].length > 500
-      errors << I18n.t("salary_updater.errors.reason")
+      errors << I18n.t('salary_updater.errors.reason')
     end
-    errors << I18n.t("salary_updater.errors.changed_by") if attributes[:changed_by].empty?
+    errors << I18n.t('salary_updater.errors.changed_by') if attributes[:changed_by].empty?
     errors
   end
 
@@ -62,7 +64,7 @@ class SalaryUpdater
     @employee.with_lock do
       salary = @employee.current_salary
       if salary.nil?
-        failure([ I18n.t("salary_updater.errors.missing_current_salary") ])
+        failure([ I18n.t('salary_updater.errors.missing_current_salary') ])
       else
         change = create_salary_change(salary, attributes)
         salary.update!(amount_minor: attributes[:amount], currency: attributes[:currency])

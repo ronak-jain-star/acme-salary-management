@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class EmployeeBlueprint < Blueprinter::Base
   identifier :id
 
   fields :employee_number, :email, :country, :department, :title
 
   field :name do |employee|
-    [ employee.first_name, employee.last_name ].join(" ")
+    [ employee.first_name, employee.last_name ].join(' ')
   end
 
   field :salary do |employee|

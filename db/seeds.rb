@@ -11,7 +11,9 @@
 unless Employee.exists?
 srand(20_260_001)
 
-countries = [ [ "United States", "USD" ], [ "India", "INR" ], [ "United Kingdom", "GBP" ], [ "Germany", "EUR" ], [ "Singapore", "SGD" ] ]
+countries = [ [ "United States", "USD" ], [ "India", "INR" ], [ "United Kingdom", "GBP" ], [ "Germany", "EUR" ],
+[ "Singapore", "SGD" ]
+]
 departments = [ "Engineering", "People", "Finance", "Sales", "Operations", "Product", "Design" ]
 first_names = %w[Avery Jordan Riley Morgan Casey Taylor Jamie Quinn Alex Cameron]
 last_names = %w[Patel Kim Garcia Smith Brown Wilson Singh Martin Chen Taylor]

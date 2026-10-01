@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SalaryInsights
   GROUP_COLUMNS = %w[employees.country employees.department current_salaries.currency].freeze
   AGGREGATE_COLUMNS = <<~SQL.squish.freeze

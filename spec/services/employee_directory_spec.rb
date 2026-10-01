@@ -4,11 +4,13 @@ RSpec.describe EmployeeDirectory do
   describe ".call" do
     it "filters employees and returns sorted paginated results with metadata" do
       create(:employee, first_name: "Zoey", last_name: "Zebra", country: "India", department: "Engineering")
-      expected_employee = create(:employee, first_name: "Avery", last_name: "Adams", country: "India", department: "Engineering")
+      expected_employee = create(:employee, first_name: "Avery", last_name: "Adams", country: "India",
+department: "Engineering")
       create(:employee, country: "India", department: "Finance")
       create(:employee, country: "United States", department: "Engineering")
 
-      result = described_class.call(page: "1", per_page: "1", query: "India", country: "India", department: "Engineering")
+      result = described_class.call(page: "1", per_page: "1", query: "India", country: "India",
+department: "Engineering")
 
       expect(result.employees).to contain_exactly(expected_employee)
       expect(result).to have_attributes(page: 1, per_page: 1, total: 2)
