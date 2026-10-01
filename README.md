@@ -29,7 +29,7 @@ npm --prefix frontend test
 
 ## Deployment
 
-`render.yaml` provisions a PostgreSQL database and a Docker web service that serves both the Rails API and built React UI. Connect the repository to Render, provide `RAILS_MASTER_KEY` through Render's secret settings (never commit the key), then deploy. The pre-deploy step migrates and seeds an empty database. The hosted URL and a short demo recording can be added here after deployment.
+`render.yaml` provisions a PostgreSQL database and a Docker web service that serves both the Rails API and built React UI. Connect the repository to Render, then deploy; Render supplies `SECRET_KEY_BASE` and the pre-deploy step migrates and seeds an empty database. The hosted URL and a short demo recording can be added here after deployment.
 
 ## AI use
 
