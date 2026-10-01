@@ -1,10 +1,13 @@
 # syntax=docker/dockerfile:1
 FROM node:20-alpine AS frontend
-WORKDIR /frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
+RUN apk add --no-cache git
+ARG FRONTEND_REPOSITORY=https://github.com/ronak-jain-star/acme-salary-management-webui.git
+ARG FRONTEND_REF=faa618febf2b5f31fa08321dc9e30eaa273e234d
+RUN git clone ${FRONTEND_REPOSITORY} /frontend \
+  && git -C /frontend checkout ${FRONTEND_REF} \
+  && cd /frontend \
+  && npm ci \
+  && npm run build
 
 FROM ruby:3.1.2-slim AS base
 WORKDIR /rails
