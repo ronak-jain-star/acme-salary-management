@@ -24,7 +24,7 @@ The seed is deterministic and safe to rerun; it creates records only on an empty
 
 ```sh
 bundle exec rspec
-npm --prefix frontend test -- --run
+npm --prefix frontend test
 ```
 
 ## Deployment
