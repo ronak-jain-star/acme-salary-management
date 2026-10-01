@@ -4,33 +4,45 @@ class SalaryUpdater
   end
 
   def self.call(employee:, amount_minor: nil, currency: nil, reason: nil, changed_by: nil)
-    attributes = normalize_attributes(amount_minor:, currency:, reason:, changed_by:)
+    new(employee:, amount_minor:, currency:, reason:, changed_by:).call
+  end
+
+  def initialize(employee:, amount_minor:, currency:, reason:, changed_by:)
+    @employee = employee
+    @amount_minor = amount_minor
+    @currency = currency
+    @reason = reason
+    @changed_by = changed_by
+  end
+
+  def call
+    attributes = normalize_attributes
     errors = validation_errors(attributes)
     return failure(errors) if errors.any?
 
-    update_salary(employee, attributes)
+    update_salary(attributes)
   rescue ActiveRecord::RecordInvalid => e
     failure(e.record.errors.full_messages)
   end
 
-  def self.normalize_attributes(amount_minor:, currency:, reason:, changed_by:)
+  private
+
+  def normalize_attributes
     {
-      amount: parse_amount(amount_minor),
-      currency: currency.to_s.upcase,
-      reason: reason.to_s,
-      changed_by: changed_by.to_s.strip
+      amount: parse_amount(@amount_minor),
+      currency: @currency.to_s.upcase,
+      reason: @reason.to_s,
+      changed_by: @changed_by.to_s.strip
     }
   end
-  private_class_method :normalize_attributes
 
-  def self.parse_amount(amount_minor)
+  def parse_amount(amount_minor)
     Integer(amount_minor.to_s, 10)
   rescue ArgumentError
     nil
   end
-  private_class_method :parse_amount
 
-  def self.validation_errors(attributes)
+  def validation_errors(attributes)
     errors = []
     errors << I18n.t("salary_updater.errors.amount_minor") unless attributes[:amount]&.positive?
 
@@ -45,24 +57,22 @@ class SalaryUpdater
     errors << I18n.t("salary_updater.errors.changed_by") if attributes[:changed_by].empty?
     errors
   end
-  private_class_method :validation_errors
 
-  def self.update_salary(employee, attributes)
-    employee.with_lock do
-      salary = employee.current_salary
+  def update_salary(attributes)
+    @employee.with_lock do
+      salary = @employee.current_salary
       if salary.nil?
         failure([ I18n.t("salary_updater.errors.missing_current_salary") ])
       else
-        change = create_salary_change(employee, salary, attributes)
+        change = create_salary_change(salary, attributes)
         salary.update!(amount_minor: attributes[:amount], currency: attributes[:currency])
         Result.new(salary:, change:, errors: [])
       end
     end
   end
-  private_class_method :update_salary
 
-  def self.create_salary_change(employee, salary, attributes)
-    employee.salary_changes.create!(
+  def create_salary_change(salary, attributes)
+    @employee.salary_changes.create!(
       previous_amount_minor: salary.amount_minor,
       previous_currency: salary.currency,
       new_amount_minor: attributes[:amount],
@@ -71,10 +81,8 @@ class SalaryUpdater
       changed_by: attributes[:changed_by]
     )
   end
-  private_class_method :create_salary_change
 
-  def self.failure(errors)
+  def failure(errors)
     Result.new(errors:)
   end
-  private_class_method :failure
 end
