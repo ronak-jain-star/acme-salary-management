@@ -27,6 +27,10 @@ bundle exec rspec
 npm --prefix frontend test -- --run
 ```
 
+## Deployment
+
+`render.yaml` provisions a PostgreSQL database and a Docker web service that serves both the Rails API and built React UI. Connect the repository to Render, provide `RAILS_MASTER_KEY` through Render's secret settings (never commit the key), then deploy. The pre-deploy step migrates and seeds an empty database. The hosted URL and a short demo recording can be added here after deployment.
+
 ## AI use
 
 AI assistance was used for initial requirements/design decomposition, scaffolding, and implementation review. All domain rules and generated changes are intended to be reviewed by the author. See [decision log](docs/ai-and-tradeoffs.md).

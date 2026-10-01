@@ -18,7 +18,7 @@ RSpec.describe SalaryUpdater do
     expect(employee.salary_changes).to be_empty
   end
 
-  it "requires a reason and a three-letter currency code" do
+  it "requires a reason and a supported currency" do
     result = described_class.call(employee: employee, amount_minor: "1", currency: "US dollars", reason: " ", changed_by: "HR")
     expect(result.errors).to include("currency must be supported (USD, INR, GBP, EUR, SGD)", "reason is required (max 500 characters)")
   end
