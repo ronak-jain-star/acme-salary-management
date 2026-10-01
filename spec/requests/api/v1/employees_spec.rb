@@ -6,8 +6,9 @@ RSpec.describe "Employees API", type: :request do
     create_list(:employee, 2)
     get "/api/v1/employees", params: { q: "Jordan", per_page: 500 }
     expect(response).to have_http_status(:ok)
-    expect(JSON.parse(response.body)).to include("total" => 1, "per_page" => 100)
-    serialized_employee = JSON.parse(response.body).fetch("employees").first
+    payload = JSON.parse(response.body)
+    expect(payload.fetch("metadata")).to include("total" => 1, "per_page" => 100)
+    serialized_employee = payload.fetch("data").fetch("employees").first
     expect(serialized_employee).to include(
       "id" => employee.id,
       "name" => "Jordan Kim",
@@ -19,7 +20,7 @@ RSpec.describe "Employees API", type: :request do
     employee = create(:employee)
     employee.current_salary.update!(currency: "INR", amount_minor: 7_000_000)
     get "/api/v1/insights"
-    groups = JSON.parse(response.body).fetch("groups")
+    groups = JSON.parse(response.body).fetch("data").fetch("groups")
     expect(groups.map { |g| g.fetch("currency") }).to include("INR")
   end
 
@@ -33,7 +34,7 @@ RSpec.describe "Employees API", type: :request do
     expect(employee.salary_changes.count).to eq(1)
 
     get "/api/v1/employees/#{employee.id}/salary_history"
-    history = JSON.parse(response.body).first
+    history = JSON.parse(response.body).fetch("data").first
     expect(history).to include(
       "new_amount_minor" => 11_000_000,
       "currency" => "USD",

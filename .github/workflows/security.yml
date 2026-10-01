@@ -1,0 +1,30 @@
+name: Security and Style
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  brakeman_rubocop:
+    name: Brakeman and RuboCop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Install Brakeman
+        run: gem install brakeman --no-document
+
+      - name: Lint Ruby code
+        run: bundle exec rubocop -f github
+
+      - name: Scan Rails application
+        run: brakeman --no-pager

@@ -1,0 +1,42 @@
+name: Specs
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+
+concurrency:
+  group: CI-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rspec:
+    if: contains(github.event.pull_request.labels.*.name, 'run_build')
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: acme_salary_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/acme_salary_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Prepare database
+        run: bundle exec rails db:prepare
+
+      - name: Run RSpec
+        run: bundle exec rspec --force-color
