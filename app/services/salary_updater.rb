@@ -32,17 +32,17 @@ class SalaryUpdater
 
   def self.validation_errors(attributes)
     errors = []
-    errors << "amount_minor must be a positive integer" unless attributes[:amount]&.positive?
+    errors << I18n.t("salary_updater.errors.amount_minor") unless attributes[:amount]&.positive?
 
     supported_currencies = SalarySettings.supported_currencies
     unless supported_currencies.include?(attributes[:currency])
-      errors << "currency must be supported (#{supported_currencies.join(', ')})"
+      errors << I18n.t("salary_updater.errors.currency", currencies: supported_currencies.join(", "))
     end
 
     if attributes[:reason].strip.empty? || attributes[:reason].length > 500
-      errors << "reason is required (max 500 characters)"
+      errors << I18n.t("salary_updater.errors.reason")
     end
-    errors << "changed_by is required" if attributes[:changed_by].empty?
+    errors << I18n.t("salary_updater.errors.changed_by") if attributes[:changed_by].empty?
     errors
   end
   private_class_method :validation_errors
@@ -51,7 +51,7 @@ class SalaryUpdater
     employee.with_lock do
       salary = employee.current_salary
       if salary.nil?
-        failure([ "employee has no current salary" ])
+        failure([ I18n.t("salary_updater.errors.missing_current_salary") ])
       else
         change = create_salary_change(employee, salary, attributes)
         salary.update!(amount_minor: attributes[:amount], currency: attributes[:currency])

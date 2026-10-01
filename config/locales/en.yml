@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  salary_updater:
+    errors:
+      amount_minor: "amount_minor must be a positive integer"
+      currency: "currency must be supported (%{currencies})"
+      reason: "reason is required (max 500 characters)"
+      changed_by: "changed_by is required"
+      missing_current_salary: "employee has no current salary"
