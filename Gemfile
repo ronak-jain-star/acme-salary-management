@@ -14,6 +14,7 @@ gem 'json', '< 3.0'
 gem 'pg', '~> 1.5'
 gem 'rspec-rails', '~> 7.1', group: %i[development test]
 gem 'factory_bot_rails', '~> 6.4', group: %i[development test]
+gem 'test-prof', '~> 1.4', group: %i[development test]
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
