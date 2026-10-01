@@ -10,4 +10,5 @@ test('formats minor units using the supplied currency', () => {
 test('rejects invalid amounts and currency codes', () => {
   assert.throws(() => formatMoney(-1, 'USD'), TypeError)
   assert.throws(() => formatMoney(100, 'usd'), TypeError)
+  assert.throws(() => formatMoney(100, 'ABC'), TypeError)
 })

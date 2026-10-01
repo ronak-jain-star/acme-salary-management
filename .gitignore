@@ -1,6 +1,8 @@
 /config/master.key
 /config/credentials/*.key
 /storage/*.sqlite3*
+/storage/*
+!/storage/.keep
 /log/*
 /tmp/*
 /node_modules/

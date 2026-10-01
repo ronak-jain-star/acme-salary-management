@@ -18,7 +18,7 @@ npm --prefix frontend install
 npm --prefix frontend run dev
 ```
 
-The seed is deterministic and safe to rerun. It resets only this app's employee and salary-change tables. API: `/api/v1/employees`, `/api/v1/insights`, `/api/v1/employees/:id/salary_changes`.
+The seed is deterministic and safe to rerun; it creates records only on an empty database and preserves existing salary data. API: `GET /api/v1/employees`, `GET /api/v1/insights`, `POST /api/v1/employees/:employee_id/salary_changes`, and `GET /api/v1/employees/:id/salary_history`.
 
 ## Tests
 

@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :employees, only: %i[index show] do
-        resource :salary_changes, only: :create
         get :salary_history, on: :member
       end
+      post "employees/:employee_id/salary_changes", to: "employees#create"
       get "insights", to: "insights#index"
     end
   end

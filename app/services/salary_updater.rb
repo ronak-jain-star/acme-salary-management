@@ -8,7 +8,7 @@ class SalaryUpdater
     errors = []
     errors << "amount_minor must be a positive integer" unless amount&.positive?
     code = currency.to_s.upcase
-    errors << "currency must be a three-letter code" unless code.match?(/\A[A-Z]{3}\z/)
+    errors << "currency must be supported (USD, INR, GBP, EUR, SGD)" unless %w[USD INR GBP EUR SGD].include?(code)
     errors << "reason is required (max 500 characters)" if reason.to_s.strip.empty? || reason.to_s.length > 500
     errors << "changed_by is required" if changed_by.to_s.strip.empty?
     return Result.new(errors: errors) if errors.any?
