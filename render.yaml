@@ -1,0 +1,24 @@
+databases:
+  - name: acme-salary-db
+    plan: basic-256mb
+    databaseName: acme_salary_production
+    user: acme_salary
+
+services:
+  - type: web
+    name: acme-salary-management
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /up
+    preDeployCommand: bundle exec rails db:migrate db:seed
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: acme-salary-db
+          property: connectionString
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"

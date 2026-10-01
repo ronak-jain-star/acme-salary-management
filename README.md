@@ -4,17 +4,18 @@ An HR salary workspace for 10,000 synthetic employees. See [requirements](requir
 
 ## Stack
 
-Rails 7.1 API, PostgreSQL in production / SQLite locally, React + Vite UI, and RSpec request/model specs. All seed records are synthetic. Amounts are integer cents (or equivalent minor units) and are only summarized within the same currency.
+Rails 7.1 API, PostgreSQL, React + Vite UI, and RSpec request/model specs. All seed records are synthetic. Amounts are integer minor units and are only summarized within the same currency.
 
 ## Local setup
 
-Requires Ruby 3.1+, Node 20+, and SQLite. Install gems and JS dependencies, then run:
+Requires Ruby 3.1+, Node 20+, and PostgreSQL. Create `acme_salary_development` and `acme_salary_test` databases (or set `DATABASE_URL`), install gems and JS dependencies, then run the API and UI in separate terminals:
 
 ```sh
 bundle install
 bin/rails db:prepare
 bin/rails db:seed
-bin/dev
+npm --prefix frontend install
+npm --prefix frontend run dev
 ```
 
 The seed is deterministic and safe to rerun. It resets only this app's employee and salary-change tables. API: `/api/v1/employees`, `/api/v1/insights`, `/api/v1/employees/:id/salary_changes`.
