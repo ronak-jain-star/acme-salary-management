@@ -9,3 +9,5 @@
 /frontend/node_modules/
 /frontend/dist/
 /.bundle
+/vendor/*
+!/vendor/.keep
