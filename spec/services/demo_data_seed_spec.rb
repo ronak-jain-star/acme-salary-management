@@ -22,11 +22,12 @@ RSpec.describe DemoDataSeed do
     end
 
     it 'generates unique names for the full seeded population' do
-      names = (0...described_class::TOTAL_EMPLOYEES).map do |index|
+      total_employees = described_class::COUNTRIES.sum { |country| country[:headcount] }
+      names = (0...total_employees).map do |index|
         described_class.full_name_at(index).join(' ')
       end
 
-      expect(names.uniq.length).to eq(described_class::TOTAL_EMPLOYEES)
+      expect(names.uniq.length).to eq(total_employees)
     end
 
     it 'formats job titles with natural role wording' do

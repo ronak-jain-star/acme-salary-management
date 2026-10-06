@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 class DemoDataSeed
-  TOTAL_EMPLOYEES = 10_000
   RANDOM_SEED = 20_260_001
+  DATA_DIRECTORY = File.expand_path('../../db/data', __dir__).freeze
   DEPARTMENTS = %w[Engineering People Finance Sales Operations Product Design].freeze
   LEVELS = %w[Associate Senior Lead Staff Manager].freeze
   ROLES = {
@@ -14,34 +16,15 @@ class DemoDataSeed
     'Product' => 'Product Specialist',
     'Design' => 'Designer'
   }.freeze
-  COUNTRIES = [
-    { country: 'United States', currency: 'USD', headcount: 2_300, minimum: 5_000_000, maximum: 20_000_000 },
-    { country: 'India', currency: 'INR', headcount: 2_600, minimum: 80_000_000, maximum: 600_000_000 },
-    { country: 'United Kingdom', currency: 'GBP', headcount: 1_800, minimum: 3_000_000, maximum: 13_000_000 },
-    { country: 'Germany', currency: 'EUR', headcount: 1_900, minimum: 3_500_000, maximum: 12_000_000 },
-    { country: 'Singapore', currency: 'SGD', headcount: 1_400, minimum: 4_500_000, maximum: 18_000_000 }
-  ].map(&:freeze).freeze
-  FIRST_NAMES = %w[
-    Avery Jordan Riley Morgan Casey Taylor Jamie Quinn Alex Cameron Devon Blake Elliot Finley
-    Harper Logan Micah Parker Reese Rowan Sage Skyler Spencer Sydney Tatum Teagan Val Frankie
-    Dakota Emerson Hayden Jesse Kai Lane Marley Noel Phoenix Remy Robin Sawyer Shiloh Zion
-    Bailey Drew Eden Gray Jules Lennon Milan Oakley River Sam Ari Bell Ellis Kennedy Leslie
-    Monroe Nico Shay Terry Amari Andy Angel Ash August Billie Briar Charlie Cody Cory Dallas
-    Dani Devin Eli Erin Ezra Gale Hollis Indy Ira Jessie Kit Lee Luca Max Ollie Perry Ray Rohan
-    Rory Sasha Shreya Tal Toby Uma Wren Yara Yuki Zara Adrian Aiden
-  ].freeze
-  LAST_NAMES = %w[
-    Patel Kim Garcia Smith Brown Wilson Singh Martin Chen Taylor Davis Miller Rodriguez
-    Martinez Anderson Thomas Moore Jackson Thompson White Lopez Lee Gonzalez Harris Clark Lewis
-    Robinson Walker Perez Hall Young Allen King Wright Scott Torres Nguyen Hill Flores Green
-    Adams Nelson Baker Mitchell Carter Roberts Phillips Campbell Evans Turner Diaz Edwards
-    Collins Stewart Morris Morales Murphy Cook Rogers Gutierrez Ortiz Cooper Peterson Bailey
-    Reed Kelly Howard Ramos Ward Cox Richardson Watson Brooks Bennett Wood Barnes Ross
-    Henderson Coleman Jenkins Perry Powell Long Patterson Hughes Alvarez Atkinson Black Bryant
-    Butler Chavez Curtis Fisher Ford Foster Graham Holmes Hudson James Jordan Lawson Marshall
-    Matthews Myers Nichols Palmer Porter Price Reynolds Rice Simmons Stone Sullivan Wells West
-    Woods Xu Yang Zhao Zimmerman
-  ].freeze
+  COUNTRIES = CSV.read(File.join(DATA_DIRECTORY, 'demo_countries.csv'), headers: true, converters: :numeric)
+                  .map { |row| row.to_h.transform_keys(&:to_sym).freeze }
+                  .freeze
+  FIRST_NAMES = CSV.read(File.join(DATA_DIRECTORY, 'demo_first_names.csv'), headers: true)
+                    .map { |row| row.fetch('name') }
+                    .freeze
+  LAST_NAMES = CSV.read(File.join(DATA_DIRECTORY, 'demo_last_names.csv'), headers: true)
+                   .map { |row| row.fetch('name') }
+                   .freeze
 
   def self.full_name_at(index)
     [FIRST_NAMES.fetch(index % FIRST_NAMES.length), LAST_NAMES.fetch((index / FIRST_NAMES.length) % LAST_NAMES.length)]
