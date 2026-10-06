@@ -10,6 +10,12 @@
 - **`SalaryUpdater` service object rather than controller-owned writes.** It validates the inputs and updates current salary plus its history row inside one transaction. That keeps the audit behavior testable and atomic, at the cost of a small domain service alongside Active Record models.
 - **Deterministic row-by-row seed inside a transaction rather than bulk import tooling.** `db/seeds.rb` creates synthetic employees and salaries using ordinary validations. The trade-off is slower seeding than bulk insert; for 10,000 demo rows the simpler path is acceptable until measured seed time says otherwise.
 
+## Repository and frontend history
+
+The work initially used separate API and UI repositories. During the assessment, the React UI was brought into this repository so reviewers can inspect and run the end-to-end application from one checkout, and the deployment can build as one unit. The earlier split and consolidation commits remain in the history to show that evolution; their messages describe the earlier repository state. The history was not rewritten to hide those steps.
+
+The frontend uses plain React JavaScript, as requested, rather than TypeScript. The assessment requires React and does not require a typed frontend. This keeps the UI in the requested language and reduces setup, while giving up TypeScript's compile-time type checks. The Vite production build and frontend tests still check that the UI compiles and its tested behavior works.
+
 ## Performance considerations
 
 - Directory results include current salary in one query path to avoid an N+1 salary lookup. Page size is capped at 100.
