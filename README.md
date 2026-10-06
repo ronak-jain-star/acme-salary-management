@@ -17,6 +17,7 @@ git clone https://github.com/ronak-jain-star/acme-salary-management-webui.git ..
 ```sh
 bundle install
 cp config/application.yml.example config/application.yml
+cp config/database.yml.sample config/database.yml
 bin/rails db:prepare
 bin/rails db:seed
 ```

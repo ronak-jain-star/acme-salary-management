@@ -35,6 +35,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Create database configuration
+        run: cp config/database.yml.sample config/database.yml
+
       - name: Prepare database
         run: bundle exec rails db:prepare
 
