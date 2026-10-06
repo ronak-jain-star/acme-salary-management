@@ -1,0 +1,19 @@
+Dockerfile
+  s_e5aa1739745d37::t_7e18ca7f4cb79e 19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8fa7f8818ac6d1dc829ced3b69af4fdc04a5962c",
+  "prompts": {},
+  "sessions": {
+    "s_e5aa1739745d37": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10a6a-49f8-7672-bb4a-c5d6e53a3058",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "Ronak Jain <ronak.jain@jiostar.com>"
+    }
+  }
+}
