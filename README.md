@@ -55,7 +55,7 @@ npm test --prefix frontend
 npm run build --prefix frontend
 ```
 
-The suite currently has 11 RSpec examples and 2 frontend unit tests. GitHub Actions runs backend specs, frontend tests and build, RuboCop, and Brakeman for pull requests and on `main`. The test schema is loaded without demo seeds so factory data remains isolated.
+The suite currently has 13 RSpec examples and 2 frontend unit tests. GitHub Actions runs backend specs, frontend tests and build, RuboCop, and Brakeman for pull requests and on `main`. The test schema is loaded without demo seeds so factory data remains isolated.
 
 ## Deployment and demo
 
