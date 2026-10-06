@@ -1,17 +1,17 @@
-# ACME Salary Management Web UI
+# React UI
 
-React and TypeScript frontend for the ACME Salary Management API. The UI is developed and versioned independently from the Rails API.
+The React and TypeScript client is built with Vite and lives in this repository's `frontend/` directory.
 
 ## Local development
 
-Requirements: Node.js 20+ and the Rails API running at `http://localhost:3000`.
+Requires Node.js 20+ and the Rails API running at `http://localhost:3000`.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Vite serves the app at `http://localhost:5173` and proxies `/api` requests to Rails. The API and UI remain same-origin in the combined production container.
+Vite serves the app at `http://localhost:5173` and proxies `/api` requests to Rails. The root README documents the complete API-plus-UI setup.
 
 ## Checks
 
