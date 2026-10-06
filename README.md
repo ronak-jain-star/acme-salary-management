@@ -1,6 +1,6 @@
 # ACME Pay
 
-> **Live app:** Pending deployment · **Demo video:** Pending recording
+> **Live app:** [acme-salary-management-2b8o.onrender.com](https://acme-salary-management-2b8o.onrender.com/) · **Demo video:** Pending recording
 
 [![CI](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml)
 
@@ -59,7 +59,7 @@ The suite currently has 13 RSpec examples and 2 frontend unit tests. GitHub Acti
 
 ## Deployment and demo
 
-`render.yaml` describes the Rails/PostgreSQL deployment. A Render service has not yet been provisioned, so there is no live URL or recorded walkthrough to link. Those are explicit remaining submission items; do not treat the blueprint as a deployed app. When available, add both links to the status line at the top of this README. The walkthrough should cover employee search/filter, salary and currency details, an auditable salary edit, and currency-separated insights.
+`render.yaml` describes the Rails/PostgreSQL deployment. The app is live at the URL above; a recorded walkthrough is still pending. The walkthrough should cover employee search/filter, salary and currency details, an auditable salary edit, and currency-separated insights.
 
 ## Security boundary
 
