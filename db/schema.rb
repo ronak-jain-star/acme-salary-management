@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_01_000002) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_01_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_01_000002) do
     t.index ["employee_number"], name: "index_employees_on_employee_number", unique: true
   end
 
-  create_table "salary_changes", force: :cascade do |t|
+  create_table "salary_histories", force: :cascade do |t|
     t.bigint "employee_id", null: false
     t.integer "previous_amount_minor", null: false
     t.string "previous_currency", limit: 3, null: false
@@ -48,10 +48,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_01_000002) do
     t.string "changed_by", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employee_id", "created_at"], name: "index_salary_changes_on_employee_id_and_created_at"
-    t.index ["employee_id"], name: "index_salary_changes_on_employee_id"
+    t.index ["employee_id", "created_at"], name: "index_salary_histories_on_employee_id_and_created_at"
+    t.index ["employee_id"], name: "index_salary_histories_on_employee_id"
   end
 
   add_foreign_key "current_salaries", "employees"
-  add_foreign_key "salary_changes", "employees"
+  add_foreign_key "salary_histories", "employees"
 end

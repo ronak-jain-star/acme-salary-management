@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SalaryChange < ApplicationRecord
+class SalaryHistory < ApplicationRecord
   belongs_to :employee
   validates :previous_amount_minor, :new_amount_minor, numericality: { only_integer: true, greater_than: 0 }
   validates :currency, :previous_currency, inclusion: { in: ->(_) { SalarySettings.supported_currencies } }

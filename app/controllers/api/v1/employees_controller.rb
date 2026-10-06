@@ -23,8 +23,8 @@ module Api
       end
 
       def salary_history
-        changes = Employee.find(params[:id]).salary_changes.order(created_at: :desc).limit(100)
-        render_success(data: SalaryChangeBlueprint.render_as_hash(changes))
+        history = Employee.find(params[:id]).salary_histories.order(created_at: :desc).limit(100)
+        render_success(data: SalaryHistoryBlueprint.render_as_hash(history))
       end
 
       def create

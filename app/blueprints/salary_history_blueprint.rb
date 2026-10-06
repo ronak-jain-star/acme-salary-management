@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SalaryChangeBlueprint < Blueprinter::Base
+class SalaryHistoryBlueprint < Blueprinter::Base
   identifier :id
 
   fields :previous_amount_minor, :previous_currency, :new_amount_minor, :currency,

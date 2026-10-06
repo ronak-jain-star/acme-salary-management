@@ -74,7 +74,7 @@ class SalaryUpdater
   end
 
   def create_salary_change(salary, attributes)
-    @employee.salary_changes.create!(
+    @employee.salary_histories.create!(
       previous_amount_minor: salary.amount_minor,
       previous_currency: salary.currency,
       new_amount_minor: attributes[:amount],

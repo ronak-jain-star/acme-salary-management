@@ -16,8 +16,8 @@ RSpec.describe SalaryUpdater do
 reason: "Merit increase", changed_by: "HR")
     expect(result).to be_success
     expect(employee.current_salary.reload.amount_minor).to eq(12_500_000)
-    expect(employee.salary_changes.count).to eq(1)
-    expect(employee.salary_changes.first).to have_attributes(previous_amount_minor: 10_000_000,
+    expect(employee.salary_histories.count).to eq(1)
+    expect(employee.salary_histories.first).to have_attributes(previous_amount_minor: 10_000_000,
 previous_currency: "USD", new_amount_minor: 12_500_000, currency: "USD", reason: "Merit increase", changed_by: "HR")
   end
 
@@ -28,7 +28,7 @@ changed_by: "HR")
     expect(result).not_to be_success
     expect(result.errors).to include("amount_minor must be a positive integer")
     expect(employee.current_salary.reload.amount_minor).to eq(10_000_000)
-    expect(employee.salary_changes).to be_empty
+    expect(employee.salary_histories).to be_empty
 
     result = described_class.call(employee: employee, amount_minor: "1.25", currency: "USD", reason: "Correction",
 changed_by: "HR")
@@ -60,6 +60,6 @@ changed_by: "HR")
 changed_by: "HR")
 
     expect(result.errors).to include("employee has no current salary")
-    expect(employee.salary_changes).to be_empty
+    expect(employee.salary_histories).to be_empty
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe "Employees API", type: :request do
       as: :json
     expect(response).to have_http_status(:created)
     expect(employee.current_salary.reload.amount_minor).to eq(11_000_000)
-    expect(employee.salary_changes.count).to eq(1)
+    expect(employee.salary_histories.count).to eq(1)
 
     get "/api/v1/employees/#{employee.id}/salary_history"
     history = JSON.parse(response.body).fetch("data").first

@@ -2,7 +2,7 @@
 
 class Employee < ApplicationRecord
   has_one :current_salary, dependent: :destroy
-  has_many :salary_changes, dependent: :restrict_with_exception
+  has_many :salary_histories, dependent: :restrict_with_exception
   validates :employee_number, :first_name, :last_name, :country, :department, presence: true
   validates :employee_number, uniqueness: true
   scope :search, ->(term) {
