@@ -9,7 +9,7 @@ RUN git clone ${FRONTEND_REPOSITORY} /frontend \
   && npm ci \
   && npm run build
 
-FROM ruby:3.1.2-slim AS base
+FROM ruby:3.4.11-slim AS base
 WORKDIR /rails
 ENV RAILS_ENV=production BUNDLE_PATH=/usr/local/bundle BUNDLE_WITHOUT=development
 RUN apt-get update -qq && apt-get install --no-install-recommends -y libpq5 curl && rm -rf /var/lib/apt/lists/*

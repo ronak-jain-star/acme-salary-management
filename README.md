@@ -8,7 +8,7 @@ Rails 7.1 API, PostgreSQL, and RSpec request/model specs. The React + Vite UI li
 
 ## Local setup
 
-Requires Ruby 3.1+, Node 20+, and PostgreSQL. Clone both repositories as sibling directories. Create `acme_salary_development` and `acme_salary_test` databases (or set `DATABASE_URL`) and install gems:
+Requires Ruby 3.4+, Node 20+, and PostgreSQL. Clone both repositories as sibling directories. Create `acme_salary_development` and `acme_salary_test` databases (or set `DATABASE_URL`) and install gems:
 
 ```sh
 git clone https://github.com/ronak-jain-star/acme-salary-management-webui.git ../acme-salary-management-webui

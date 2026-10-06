@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+ruby '~> 3.4.0'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.6'
+gem 'rails', '~> 8.1.4'
 gem 'blueprinter', '~> 1.3'
 gem 'figaro', '~> 1.3'
 gem 'pagy', '~> 9.3.5'
-# Rails 7.1's JSON encoder passes options removed in json 3.x.
+# Keep JSON 2 until the serializer stack supports JSON 3.
 gem 'json', '< 3.0'
 
 # PostgreSQL is used in every environment.
