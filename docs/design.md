@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart LR
-  HR[HR Manager] -->|browser| React[React and TypeScript UI]
+  HR[HR Manager] -->|browser| React[React JavaScript UI]
   React -->|same-origin /api requests| Rails[Rails JSON API]
   Rails -->|Active Record| PostgreSQL[(PostgreSQL)]
   Rails -->|static files from public/| React

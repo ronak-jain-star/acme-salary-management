@@ -15,7 +15,7 @@ See [requirements](requirements.md), [architecture and trade-offs](docs/ai-and-t
 ## Stack
 
 - **API:** Ruby 3.4, Rails 8.1, PostgreSQL
-- **UI:** React 18, TypeScript, Vite
+- **UI:** React 18, JavaScript, Vite
 - **Tests and analysis:** RSpec, Node's test runner, RuboCop, Brakeman
 - **Deployment:** one Docker web service serves the built React files and Rails API
 

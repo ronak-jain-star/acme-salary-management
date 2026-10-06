@@ -1,6 +1,6 @@
 # React UI
 
-The React and TypeScript client is built with Vite and lives in this repository's `frontend/` directory.
+The React and JavaScript client is built with Vite and lives in this repository's `frontend/` directory.
 
 ## Local development
 
