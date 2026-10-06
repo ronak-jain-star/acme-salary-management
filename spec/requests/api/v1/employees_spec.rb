@@ -25,7 +25,10 @@ RSpec.describe 'Employees API', type: :request do
   it 'returns insights separated by currency' do
     get '/api/v1/insights'
     groups = JSON.parse(response.body).fetch('data').fetch('groups')
-    expect(groups.map { |g| g.fetch('currency') }).to include('INR')
+    currency_groups = groups.select do |group|
+      group.fetch('country') == 'United States' && group.fetch('department') == 'Engineering'
+    end
+    expect(currency_groups.map { |group| group.fetch('currency') }).to contain_exactly('USD', 'INR')
   end
 
   it 'updates salary and returns an audit reference' do
