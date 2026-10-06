@@ -21,7 +21,9 @@ COPY --from=frontend /frontend/dist ./public
 FROM base
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
-RUN useradd rails --create-home --shell /bin/bash && chown -R rails:rails log tmp
+RUN useradd rails --create-home --shell /bin/bash \
+    && mkdir -p log tmp \
+    && chown -R rails:rails log tmp
 USER rails:rails
 EXPOSE 3000
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
