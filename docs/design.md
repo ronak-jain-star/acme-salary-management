@@ -1,25 +1,24 @@
-# Design notes
+# System design
 
-## Shape
+## Request and deployment shape
 
 ```mermaid
 flowchart LR
-  HR[HR Manager] --> UI[React single-page app]
-  UI --> API[Rails JSON API]
-  API --> DB[(Relational database)]
-  API --> Audit[Salary change history]
+  HR[HR Manager] -->|browser| React[React JavaScript UI]
+  React -->|same-origin /api requests| Rails[Rails JSON API]
+  Rails -->|Active Record| PostgreSQL[(PostgreSQL)]
+  Rails -->|static files from public/| React
+  Rails -->|transaction| Salary[Current salary plus salary history]
 ```
 
-Employees hold identity and organization attributes; current salary is a separate row with amount in minor units and currency. Salary edits update the current row and append an immutable history record in one database transaction. The API returns paginated records and database-derived aggregate results; the browser does not load all 10,000 salaries to calculate insights.
+The repository contains both sources. Docker builds `frontend/` with Vite and copies the static output into Rails' `public/` directory. One web service serves the built UI and API. Local development uses Vite's `/api` proxy to the Rails server.
 
-## Decisions
+## Data and boundaries
 
-- Keep the app a modular monolith: one deployment boundary and transaction across current pay and its audit event.
-- Store amounts as integer minor units, never binary floating point. Require currency at every display and aggregation boundary.
-- Search is bounded (page size capped), and common filters are indexed. 10,000 rows do not justify distributed search or a separate analytics store.
-- Aggregations group by currency and organizational dimension. Cross-currency totals are intentionally absent until ACME defines an FX source/date policy.
-- Generate deterministic fake data to make demos and tests repeatable without exposing personal information.
+Employees own organization attributes. A current salary row stores an integer amount in minor units and a currency. Salary edits go through `SalaryUpdater`: validate amount, currency, reason, and actor label; then update the current salary and create a history record in one transaction. Salary history rejects updates and deletion. In this unauthenticated demo, the actor is always the literal `HR Manager`, not a verified user.
 
-## Production boundary
+`EmployeeDirectory` caps requests at 100 rows and eager-loads current salary for the returned page. `SalaryInsights` filters and aggregates within PostgreSQL, grouping by country, department, and currency. The UI never combines different currencies. `db/seeds.rb` creates 10,000 deterministic synthetic records only when the database is empty. The seed's country allocations, salary bands, and name pools live in `db/data/` CSV files so fixture values can be reviewed independently of the generator. These values are illustrative, not claims about real labor markets. Seed tests check the total, distinct allocations, salary bands, generated names, and title wording.
 
-This exercise's demo does not constitute a payroll system. Authentication/authorization, request-level security review, encryption, secrets management, backups, and operational monitoring are prerequisites for real employee data.
+## Operational boundary
+
+`render.yaml` describes a Rails web service and PostgreSQL database; it is a blueprint, not proof that the app is deployed. Authentication, authorization, secrets and key controls, backups, retention, monitoring, and privacy review are required before real employee compensation data is used.

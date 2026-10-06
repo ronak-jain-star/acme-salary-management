@@ -1,0 +1,6 @@
+country,currency,headcount,minimum,maximum
+United States,USD,2300,5000000,20000000
+India,INR,2600,80000000,600000000
+United Kingdom,GBP,1800,3000000,13000000
+Germany,EUR,1900,3500000,12000000
+Singapore,SGD,1400,4500000,18000000
