@@ -9,7 +9,13 @@ class Employee < ApplicationRecord
     return all if term.blank?
     pattern = "%#{sanitize_sql_like(term.strip)}%"
     where(
-      'employee_number ILIKE :q OR first_name ILIKE :q OR last_name ILIKE :q OR country ILIKE :q OR department ILIKE :q',
+      <<~SQL.squish,
+        employee_number ILIKE :q OR
+        first_name ILIKE :q OR
+        last_name ILIKE :q OR
+        country ILIKE :q OR
+        department ILIKE :q
+      SQL
       q: pattern
     )
   }
