@@ -16,15 +16,15 @@ class DemoDataSeed
     'Product' => 'Product Specialist',
     'Design' => 'Designer'
   }.freeze
-  COUNTRIES = CSV.read(File.join(DATA_DIRECTORY, 'demo_countries.csv'), headers: true, converters: :numeric)
-                  .map { |row| row.to_h.transform_keys(&:to_sym).freeze }
-                  .freeze
-  FIRST_NAMES = CSV.read(File.join(DATA_DIRECTORY, 'demo_first_names.csv'), headers: true)
-                    .map { |row| row.fetch('name') }
-                    .freeze
-  LAST_NAMES = CSV.read(File.join(DATA_DIRECTORY, 'demo_last_names.csv'), headers: true)
-                   .map { |row| row.fetch('name') }
-                   .freeze
+  COUNTRIES = CSV.read(
+    File.join(DATA_DIRECTORY, 'demo_countries.csv'), headers: true, converters: :numeric
+  ).map { |row| row.to_h.transform_keys(&:to_sym).freeze }.freeze
+  FIRST_NAMES = CSV.read(
+    File.join(DATA_DIRECTORY, 'demo_first_names.csv'), headers: true
+  ).map { |row| row.fetch('name') }.freeze
+  LAST_NAMES = CSV.read(
+    File.join(DATA_DIRECTORY, 'demo_last_names.csv'), headers: true
+  ).map { |row| row.fetch('name') }.freeze
 
   def self.full_name_at(index)
     [FIRST_NAMES.fetch(index % FIRST_NAMES.length), LAST_NAMES.fetch((index / FIRST_NAMES.length) % LAST_NAMES.length)]

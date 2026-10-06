@@ -9,6 +9,7 @@ gem 'figaro', '~> 1.3'
 gem 'pagy', '~> 9.3.5'
 # Keep JSON 2 until the serializer stack supports JSON 3.
 gem 'json', '< 3.0'
+gem 'csv', '~> 3.3'
 
 # PostgreSQL is used in every environment.
 gem 'pg', '~> 1.5'
