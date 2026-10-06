@@ -66,14 +66,14 @@ class SalaryUpdater
       if salary.nil?
         failure([ I18n.t('salary_updater.errors.missing_current_salary') ])
       else
-        change = create_salary_change(salary, attributes)
+        change = create_salary_history(salary, attributes)
         salary.update!(amount_minor: attributes[:amount], currency: attributes[:currency])
         Result.new(salary:, change:, errors: [])
       end
     end
   end
 
-  def create_salary_change(salary, attributes)
+  def create_salary_history(salary, attributes)
     @employee.salary_histories.create!(
       previous_amount_minor: salary.amount_minor,
       previous_currency: salary.currency,
