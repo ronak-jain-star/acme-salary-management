@@ -1,6 +1,6 @@
 # ACME Pay
 
-> **Live app:** [acme-salary-management-2b8o.onrender.com](https://acme-salary-management-2b8o.onrender.com/) · **Demo video:** Pending recording
+> **Live app:** [acme-salary-management-2b8o.onrender.com](https://acme-salary-management-2b8o.onrender.com/)
 
 [![CI](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml)
 

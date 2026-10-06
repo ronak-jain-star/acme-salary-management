@@ -6,6 +6,9 @@ RSpec.describe 'Employees API', type: :request do
     create_list(:employee, 2)
     @insights_employee = create(:employee)
     @insights_employee.current_salary.update!(currency: 'INR', amount_minor: 7_000_000)
+    create(:employee, first_name: 'Siri', country: 'United Kingdom', department: 'Sales')
+    create(:employee, first_name: 'Alex', country: 'United Kingdom', department: 'Sales')
+    create(:employee, first_name: 'Siri', country: 'India', department: 'Sales')
     @salary_employee = create(:employee)
   end
 
@@ -29,6 +32,14 @@ RSpec.describe 'Employees API', type: :request do
       group.fetch('country') == 'United States' && group.fetch('department') == 'Engineering'
     end
     expect(currency_groups.map { |group| group.fetch('currency') }).to contain_exactly('USD', 'INR')
+  end
+
+  it 'applies the same search and filters to salary insights' do
+    get '/api/v1/insights', params: { q: 'Siri', country: 'United Kingdom', department: 'Sales' }
+    groups = JSON.parse(response.body).fetch('data').fetch('groups')
+
+    expect(groups.map { |group| [group.fetch('country'), group.fetch('department'), group.fetch('headcount')] })
+      .to contain_exactly(['United Kingdom', 'Sales', 1])
   end
 
   it 'updates salary and returns an audit reference' do

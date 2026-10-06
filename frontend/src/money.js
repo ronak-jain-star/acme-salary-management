@@ -4,7 +4,7 @@ export function formatMoney(minorUnits, currency) {
   return new Intl.NumberFormat('en', {
     style: 'currency',
     currency,
-    currencyDisplay: 'narrowSymbol',
+    currencyDisplay: 'code',
     maximumFractionDigits: 0
   }).format(minorUnits / 100)
 }

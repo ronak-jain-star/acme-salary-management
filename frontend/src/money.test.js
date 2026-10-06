@@ -3,8 +3,9 @@ import assert from 'node:assert/strict'
 import { formatMoney } from './money.js'
 
 test('formats minor units using the supplied currency', () => {
-  assert.equal(formatMoney(12500000, 'USD'), '$125,000')
-  assert.equal(formatMoney(12500000, 'INR'), '₹125,000')
+  assert.equal(formatMoney(12500000, 'USD'), 'USD\u00a0125,000')
+  assert.equal(formatMoney(12500000, 'INR'), 'INR\u00a0125,000')
+  assert.equal(formatMoney(9979700, 'SGD'), 'SGD\u00a099,797')
 })
 
 test('rejects invalid amounts and currency codes', () => {
