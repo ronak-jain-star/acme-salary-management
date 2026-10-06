@@ -1,0 +1,19 @@
+app/models/employee.rb
+  s_e5aa1739745d37::t_80ce735cabbcb5 12-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8695017edc1843b4975e33a6424acb4e2eab8244",
+  "prompts": {},
+  "sessions": {
+    "s_e5aa1739745d37": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10a6a-49f8-7672-bb4a-c5d6e53a3058",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "Ronak Jain <ronak.jain@jiostar.com>"
+    }
+  }
+}
