@@ -19,7 +19,7 @@
 
 ## AI use and review
 
-AI assisted scaffolding, test ideas, code review, and remediation of CI findings. The author reviewed and steered the implementation. A concrete review correction is the audit actor: because there is no authentication, the API now writes a fixed `HR Manager` label and ignores a caller-supplied `changed_by` value; the request spec checks this. It is a placeholder label, not verified identity. Salary history model callbacks reject update and delete attempts.
+AI assisted scaffolding, test ideas, code review, and remediation of CI findings. The author reviewed and steered the implementation. A concrete review correction is the audit actor: because there is no authentication, the API now writes a fixed `HR Manager` label and ignores a caller-supplied `changed_by` value; the request spec checks this. It is a placeholder label, not verified identity. Salary history model callbacks reject update and delete attempts, with specs for both cases. The insights request spec checks that USD and INR remain separate for the same country/department group.
 
 Other checks include request specs for currency-separated insight groups, salary validation, transaction outcomes, and the audit row; CI runs RSpec, frontend tests/build, RuboCop, and Brakeman. See [representative prompts and review notes](ai-prompts.md). The prompts file is a summary, not a verbatim AI transcript.
 
