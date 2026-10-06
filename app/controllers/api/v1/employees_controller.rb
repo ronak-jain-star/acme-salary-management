@@ -31,7 +31,7 @@ module Api
         employee = Employee.find(params[:employee_id])
         input = params.require(:salary).permit(:amount_minor, :currency, :reason).to_h.symbolize_keys
         result = SalaryUpdater.call(employee: employee, **input,
-changed_by: params[:changed_by].presence || 'HR Manager')
+                                   changed_by: 'HR Manager')
         if result.success?
           render_success(
             data: { salary: CurrentSalaryBlueprint.render_as_hash(result.salary), change_id: result.change.id },

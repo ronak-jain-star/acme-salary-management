@@ -31,7 +31,10 @@ RSpec.describe 'Employees API', type: :request do
   it 'updates salary and returns an audit reference' do
     employee = @salary_employee
     post "/api/v1/employees/#{employee.id}/salary_changes",
-         params: { salary: { amount_minor: 11_000_000, currency: 'USD', reason: 'Merit increase' } },
+         params: {
+           changed_by: 'Unverified Caller',
+           salary: { amount_minor: 11_000_000, currency: 'USD', reason: 'Merit increase' }
+         },
          as: :json
     expect(response).to have_http_status(:created)
     expect(employee.current_salary.reload.amount_minor).to eq(11_000_000)
