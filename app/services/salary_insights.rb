@@ -13,13 +13,14 @@ class SalaryInsights
     MAX(current_salaries.amount_minor) AS max_minor
   SQL
 
-  def self.call(country: nil, department: nil)
-    new(country:, department:).call
+  def self.call(country: nil, department: nil, query: nil)
+    new(country: country, department: department, query: query).call
   end
 
-  def initialize(country:, department:)
+  def initialize(country:, department:, query:)
     @country = country
     @department = department
+    @query = query
   end
 
   def call
@@ -29,7 +30,7 @@ class SalaryInsights
   private
 
   def grouped_salary_rows
-    employees = Employee.all
+    employees = Employee.search(@query)
     employees = employees.where(country: @country) if @country.present?
     employees = employees.where(department: @department) if @department.present?
 
