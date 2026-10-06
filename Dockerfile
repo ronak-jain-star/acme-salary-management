@@ -2,7 +2,7 @@
 FROM node:20-alpine AS frontend
 RUN apk add --no-cache git
 ARG FRONTEND_REPOSITORY=https://github.com/ronak-jain-star/acme-salary-management-webui.git
-ARG FRONTEND_REF=faa618febf2b5f31fa08321dc9e30eaa273e234d
+ARG FRONTEND_REF=52bb351adda95a20ef1fe67ae6ab86c359d7811e
 RUN git clone ${FRONTEND_REPOSITORY} /frontend \
   && git -C /frontend checkout ${FRONTEND_REF} \
   && cd /frontend \
