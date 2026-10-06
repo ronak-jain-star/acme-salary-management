@@ -38,8 +38,8 @@ jobs:
       - name: Create database configuration
         run: cp config/database.yml.sample config/database.yml
 
-      - name: Prepare database
-        run: bundle exec rails db:prepare
+      - name: Load test schema
+        run: bundle exec rails db:schema:load
 
       - name: Run RSpec
         run: bundle exec rspec --force-color

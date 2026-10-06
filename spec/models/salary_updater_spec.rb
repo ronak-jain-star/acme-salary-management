@@ -48,8 +48,13 @@ changed_by: " ")
   end
 
   it "rejects a reason longer than 500 characters" do
-    result = described_class.call(employee: @long_reason_employee, amount_minor: "1", currency: "USD", reason: "a" * 501,
-changed_by: "HR")
+    result = described_class.call(
+      employee: @long_reason_employee,
+      amount_minor: "1",
+      currency: "USD",
+      reason: "a" * 501,
+      changed_by: "HR"
+    )
 
     expect(result.errors).to include("reason is required (max 500 characters)")
   end
