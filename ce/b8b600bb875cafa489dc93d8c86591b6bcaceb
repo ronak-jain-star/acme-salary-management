@@ -1,0 +1,23 @@
+Gemfile
+  s_e5aa1739745d37::t_a132b577f351e9 12
+app/services/demo_data_seed.rb
+  s_e5aa1739745d37::t_a132b577f351e9 19-27
+Gemfile.lock
+  s_e5aa1739745d37::t_d515d51fd26f5f 88,284
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "ceb8b600bb875cafa489dc93d8c86591b6bcaceb",
+  "prompts": {},
+  "sessions": {
+    "s_e5aa1739745d37": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a10a6a-49f8-7672-bb4a-c5d6e53a3058",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "Ronak Jain <ronak.jain@jiostar.com>"
+    }
+  }
+}
