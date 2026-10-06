@@ -16,6 +16,7 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y build-essen
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && rm -rf /usr/local/bundle/ruby/*/cache
 COPY . .
+COPY config/database.yml.sample ./config/database.yml
 COPY --from=frontend /frontend/dist ./public
 
 FROM base
