@@ -2,9 +2,11 @@
 
 An HR salary workspace for 10,000 synthetic employees. See [requirements](requirements.md) and [design notes](docs/design.md).
 
+> **Demo status:** Not deployed yet. Live URL and video walkthrough are pending.
+
 ## Stack
 
-Rails 7.1 API, PostgreSQL, and RSpec request/model specs. The React + Vite UI lives in its own repository: [acme-salary-management-webui](https://github.com/ronak-jain-star/acme-salary-management-webui). All seed records are synthetic. Amounts are integer minor units and are only summarized within the same currency.
+Rails 8.1 API, PostgreSQL, and RSpec request/model specs. The React + Vite source lives in the separate [acme-salary-management-webui repository](https://github.com/ronak-jain-star/acme-salary-management-webui); the Docker build checks out a pinned frontend revision, builds it, and packages its static assets into this Rails app. Render serves the UI and API from one web service. All seed records are synthetic. Amounts are integer minor units and are only summarized within the same currency.
 
 ## Local setup
 
@@ -40,12 +42,8 @@ The test database is schema-loaded without demo seeds so factory records remain 
 
 ## Deployment
 
-`render.yaml` provisions a PostgreSQL database and a Docker web service. The image builds the React UI from the pinned frontend repository commit and serves it alongside the Rails API. Update `FRONTEND_REF` in `Dockerfile` when releasing a frontend change. Connect the API repository to Render; Render supplies `SECRET_KEY_BASE` and the pre-deploy step migrates and seeds an empty database. The hosted URL and a short demo recording can be added here after deployment.
+`render.yaml` provisions a PostgreSQL database and a Docker web service. Connect this repository to Render; Render supplies `SECRET_KEY_BASE` and the pre-deploy step migrates and seeds an empty database. Update `FRONTEND_REF` in `Dockerfile` when releasing a frontend change. The hosted app and video walkthrough are not available yet; add their links at the top of this README after deployment and recording.
 
 ## AI use
 
-AI assistance was used for initial requirements/design decomposition, scaffolding, and implementation review. All domain rules and generated changes are intended to be reviewed by the author. See [decision log](docs/ai-and-tradeoffs.md).
-
-## Demo
-
-Record a short walkthrough after deployment: search/filter, inspect salary and currency, make a reasoned salary edit, then compare insights grouped by currency. A hosted URL and recording are added here once deployment is configured.
+AI assistance was used for initial requirements/design decomposition, scaffolding, and implementation review. All domain rules and generated changes are intended to be reviewed by the author. See the [AI workflow and trade-offs](docs/ai-and-tradeoffs.md) and [representative prompts](docs/ai-prompts.md).
