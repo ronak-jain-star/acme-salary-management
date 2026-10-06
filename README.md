@@ -1,49 +1,70 @@
 # ACME Pay
 
-An HR salary workspace for 10,000 synthetic employees. See [requirements](requirements.md) and [design notes](docs/design.md).
+> **Live app:** Pending deployment · **Demo video:** Pending recording
 
-> **Demo status:** Not deployed yet. Live URL and video walkthrough are pending.
+[![CI](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ronak-jain-star/acme-salary-management/actions/workflows/ci.yml)
+
+An end-to-end salary management workspace for an HR manager supporting 10,000 employees. This repository contains the Rails API, React UI, database schema and seed data, tests, and design artifacts.
+
+## Product scope
+
+Search and filter the employee directory, inspect each employee's current salary and currency, record a salary update with a reason, review its history, and view salary distributions grouped by country, department, and currency. Synthetic seed data is used throughout. Amounts are integer minor units; the app never combines salary values across currencies.
+
+See [requirements](requirements.md), [architecture and trade-offs](docs/ai-and-tradeoffs.md), [design notes](docs/design.md), and [AI prompts and review notes](docs/ai-prompts.md).
 
 ## Stack
 
-Rails 8.1 API, PostgreSQL, and RSpec request/model specs. The React + Vite source lives in the separate [acme-salary-management-webui repository](https://github.com/ronak-jain-star/acme-salary-management-webui); the Docker build checks out a pinned frontend revision, builds it, and packages its static assets into this Rails app. Render serves the UI and API from one web service. All seed records are synthetic. Amounts are integer minor units and are only summarized within the same currency.
+- **API:** Ruby 3.4, Rails 8.1, PostgreSQL
+- **UI:** React 18, TypeScript, Vite
+- **Tests and analysis:** RSpec, Node's test runner, RuboCop, Brakeman
+- **Deployment:** one Docker web service serves the built React files and Rails API
 
-## Local setup
+## Run locally
 
-Requires Ruby 3.4+, Node 20+, and PostgreSQL. Clone both repositories as sibling directories. Create `acme_salary_development` and `acme_salary_test` databases (or set `DATABASE_URL`) and install gems:
+Requires Ruby 3.4+, Node.js 20+, and PostgreSQL.
 
 ```sh
-git clone https://github.com/ronak-jain-star/acme-salary-management-webui.git ../acme-salary-management-webui
-```
-
-```sh
+git clone https://github.com/ronak-jain-star/acme-salary-management.git
+cd acme-salary-management
 bundle install
+npm ci --prefix frontend
 cp config/application.yml.example config/application.yml
 cp config/database.yml.sample config/database.yml
 bin/rails db:prepare
 bin/rails db:seed
 ```
 
-Run the API with `bin/rails server`, then run the UI from the `acme-salary-management-webui` directory in a second terminal with `npm ci && npm run dev`.
+Start Rails in one terminal and Vite in another:
 
-The seed is deterministic and safe to rerun; it creates records only on an empty database and preserves existing salary data. API: `GET /api/v1/employees`, `GET /api/v1/insights`, `POST /api/v1/employees/:employee_id/salary_changes`, and `GET /api/v1/employees/:id/salary_history`.
+```sh
+bin/rails server
+npm run dev --prefix frontend
+```
 
-## Tests
+Vite serves the UI at `http://localhost:5173` and proxies `/api` to Rails at `http://localhost:3000`. The deterministic seed creates 10,000 synthetic employees only when the database is empty.
+
+## Check locally
 
 ```sh
 RAILS_ENV=test bin/rails db:schema:load
 bundle exec rspec
 bundle exec rubocop
+gem install brakeman --no-document
+brakeman --no-pager
+npm test --prefix frontend
+npm run build --prefix frontend
 ```
 
-Run the frontend checks from its repository with `npm test` and `npm run build`.
+The suite currently has 11 RSpec examples and 2 frontend unit tests. GitHub Actions runs backend specs, frontend tests and build, RuboCop, and Brakeman for pull requests and on `main`. The test schema is loaded without demo seeds so factory data remains isolated.
 
-The test database is schema-loaded without demo seeds so factory records remain isolated. Figaro loads local settings from the ignored `config/application.yml`; deployment configuration is supplied through environment variables. API JSON is serialized with Blueprinter, salary writes go through `SalaryUpdater`, and currency support is configured through `SUPPORTED_CURRENCIES`.
+## Deployment and demo
 
-## Deployment
+`render.yaml` describes the Rails/PostgreSQL deployment. A Render service has not yet been provisioned, so there is no live URL or recorded walkthrough to link. Those are explicit remaining submission items; do not treat the blueprint as a deployed app. When available, add both links to the status line at the top of this README. The walkthrough should cover employee search/filter, salary and currency details, an auditable salary edit, and currency-separated insights.
 
-`render.yaml` provisions a PostgreSQL database and a Docker web service. Connect this repository to Render; Render supplies `SECRET_KEY_BASE` and the pre-deploy step migrates and seeds an empty database. Update `FRONTEND_REF` in `Dockerfile` when releasing a frontend change. The hosted app and video walkthrough are not available yet; add their links at the top of this README after deployment and recording.
+## Security boundary
+
+This assessment uses synthetic data and has no authentication or role-based access. The salary history currently records the fixed actor label `HR Manager`; it does not establish a verified identity. Do not load real salary data before adding authentication, authorization, secret/key management, backups, retention policy, and a privacy/security review. See the deliberate exclusions in [requirements](requirements.md).
 
 ## AI use
 
-AI assistance was used for initial requirements/design decomposition, scaffolding, and implementation review. All domain rules and generated changes are intended to be reviewed by the author. See the [AI workflow and trade-offs](docs/ai-and-tradeoffs.md) and [representative prompts](docs/ai-prompts.md).
+AI was used to assist with scaffolding, test ideas, and review. The prompts artifact summarizes representative instructions and records the checks used to assess the output; it is explicitly not a verbatim conversation transcript. The implementation and its trade-offs are documented in the linked artifacts above.
